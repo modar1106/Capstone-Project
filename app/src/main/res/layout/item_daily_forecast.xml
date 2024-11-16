@@ -1,0 +1,41 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="8dp"
+    android:background="?android:selectableItemBackground">
+
+    <TextView
+        android:id="@+id/daily_day"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Hari ini"
+        android:textSize="16sp"
+        android:textColor="@android:color/white" />
+
+    <ImageView
+        android:id="@+id/daily_weather_icon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_weather" />
+
+    <TextView
+        android:id="@+id/daily_weather_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:text="Kabut asap"
+        android:textSize="14sp"
+        android:textColor="@android:color/white"
+        android:layout_marginStart="8dp" />
+
+    <TextView
+        android:id="@+id/daily_temperature_range"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="33° / 25°"
+        android:textSize="14sp"
+        android:textColor="@android:color/white" />
+</LinearLayout>

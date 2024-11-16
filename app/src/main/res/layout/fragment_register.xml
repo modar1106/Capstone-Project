@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.pages.fragment.RegisterFragment">
+
+    <TextView
+        android:id="@+id/tv_signUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sign Up"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:textColor="@color/medium_sea_green"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="44dp" />
+
+    <TextView
+        android:id="@+id/tv_deskripsi1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create your new account"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@+id/tv_signUp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp"/>
+
+    <EditText
+        android:id="@+id/et_username_sign_up"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Username"
+        android:drawableStart="@drawable/ic_person"
+        android:drawablePadding="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/tv_deskripsi1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="32dp" />
+
+    <EditText
+        android:id="@+id/et_email_sign_up"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:drawableStart="@drawable/ic_email"
+        android:drawablePadding="16dp"
+        android:hint="Email"
+        app:layout_constraintTop_toBottomOf="@id/et_username_sign_up"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="32dp" />
+
+    <EditText
+        android:id="@+id/et_password_sign_up"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:drawableStart="@drawable/ic_password"
+        android:drawablePadding="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/et_email_sign_up"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="32dp" />
+
+    <Button
+        android:id="@+id/btn_daftar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Daftar"
+        android:backgroundTint="@color/medium_sea_green"
+        app:layout_constraintTop_toBottomOf="@id/et_password_sign_up"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="32dp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="32dp">
+
+        <TextView
+            android:id="@+id/tv_deskripsi2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kamu sudah memiliki akun?"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Login"
+            android:textSize="16sp"
+            android:textColor="@color/medium_sea_green"
+            android:layout_marginStart="4dp" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
