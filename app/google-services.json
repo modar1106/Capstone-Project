@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "487291468894",
+    "project_id": "smartfarm-40322",
+    "storage_bucket": "smartfarm-40322.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:487291468894:android:c0cc7e44ad400ea35788cf",
+        "android_client_info": {
+          "package_name": "com.tyas.smartfarm"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYaFdMj-bS5bFJ9MdAOyxsQiHDsI3aNU4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:487291468894:android:b301cebc7e3dc2b75788cf",
+        "android_client_info": {
+          "package_name": "com.tyas.smartfarmtes"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYaFdMj-bS5bFJ9MdAOyxsQiHDsI3aNU4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
