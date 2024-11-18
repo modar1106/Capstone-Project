@@ -1,60 +1,136 @@
 package com.tyas.smartfarm.view.pages.fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.tyas.smartfarm.R
+import com.tyas.smartfarm.databinding.FragmentLoginBinding
+import com.tyas.smartfarm.model.AuthRepository
+import com.tyas.smartfarm.util.DataStoreManager
+import com.tyas.smartfarm.view.pages.viewmodel.AuthViewModel
+import com.tyas.smartfarm.view.pages.viewmodel.AuthViewModelFactory
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [LoginFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class LoginFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+    private var _binding: FragmentLoginBinding? = null
+    private val binding get() = _binding!!
+
+    private val authViewModel: AuthViewModel by viewModels {
+        AuthViewModelFactory(AuthRepository(com.google.firebase.auth.FirebaseAuth.getInstance()))
     }
+
+    private var hasNavigatedToMain = false // Prevent multiple navigations
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_login, container, false)
+    ): View {
+        _binding = FragmentLoginBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment LoginFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            LoginFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // Cek status login hanya saat pertama kali fragment dimulai
+        lifecycleScope.launchWhenStarted {
+            if (isUserLoggedIn()) {
+                navigateToMain()
+            }
+        }
+
+        // Tombol Login
+        binding.btnLogin.setOnClickListener {
+            val email = binding.edLoginEmail.text.toString().trim()
+            val password = binding.edPassword.text.toString().trim()
+
+            if (validateInput(email, password)) {
+                loginUser(email, password)
+            }
+        }
+
+        // Tombol Daftar
+        binding.tvDaftar.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
+        }
+
+        // Observasi ViewModel untuk login
+        observeViewModel()
+    }
+
+    private suspend fun isUserLoggedIn(): Boolean {
+        val dataStoreManager = DataStoreManager(requireContext())
+        val isLoggedIn = dataStoreManager.getLoginStatus().first()
+        Log.d("LoginFragment", "Status login: $isLoggedIn")
+        return isLoggedIn
+    }
+
+    private fun validateInput(email: String, password: String): Boolean {
+        if (email.isEmpty() || password.isEmpty()) {
+            Toast.makeText(requireContext(), "Email dan password harus diisi!", Toast.LENGTH_SHORT).show()
+            return false
+        }
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            Toast.makeText(requireContext(), "Format email tidak valid!", Toast.LENGTH_SHORT).show()
+            return false
+        }
+        return true
+    }
+
+    private fun loginUser(email: String, password: String) {
+        authViewModel.login(email, password)
+    }
+
+    private fun observeViewModel() {
+        lifecycleScope.launchWhenStarted {
+            authViewModel.authState.collect { state ->
+                when (state) {
+                    is com.tyas.smartfarm.view.pages.viewmodel.AuthState.Idle -> setLoading(false)
+                    is com.tyas.smartfarm.view.pages.viewmodel.AuthState.Loading -> setLoading(true)
+                    is com.tyas.smartfarm.view.pages.viewmodel.AuthState.Success -> {
+                        setLoading(false)
+                        saveLoginStatus(true)
+                        navigateToMain()
+                    }
+                    is com.tyas.smartfarm.view.pages.viewmodel.AuthState.Error -> {
+                        setLoading(false)
+                        Toast.makeText(requireContext(), "Error: ${state.message}", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
+        }
+    }
+
+    private fun setLoading(isLoading: Boolean) {
+        binding.btnLogin.isEnabled = !isLoading
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+    }
+
+    private fun saveLoginStatus(isLoggedIn: Boolean) {
+        val dataStoreManager = DataStoreManager(requireContext())
+        lifecycleScope.launch {
+            dataStoreManager.setLoginStatus(isLoggedIn)
+        }
+    }
+
+    private fun navigateToMain() {
+        if (!hasNavigatedToMain) { // Prevent multiple navigations
+            hasNavigatedToMain = true
+            findNavController().navigate(R.id.action_loginFragment_to_plantFragment)
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
