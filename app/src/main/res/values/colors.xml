@@ -10,4 +10,5 @@
     <color name="black_trans">#80000000</color>
     <color name="dark_red">#8B0000</color>
     <color name="medium_sea_green">#3CB371</color>
+    <color name="gainsboro">#DCDCDC</color>
 </resources>
