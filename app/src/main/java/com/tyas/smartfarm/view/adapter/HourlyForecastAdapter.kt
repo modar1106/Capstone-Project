@@ -8,7 +8,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.tyas.smartfarm.R
 
-data class HourlyWeather(val time: String, val temperature: String, val iconResId: Int)
+data class HourlyWeather(
+    val time: String,
+    val temperature: String,
+    val iconResId: Int
+)
 
 class HourlyForecastAdapter(private val hourlyData: List<HourlyWeather>) :
     RecyclerView.Adapter<HourlyForecastAdapter.HourlyViewHolder>() {
