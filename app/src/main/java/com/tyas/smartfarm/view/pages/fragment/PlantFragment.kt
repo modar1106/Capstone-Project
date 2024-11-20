@@ -43,8 +43,9 @@ class PlantFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_plant, container, false)
+        // Gunakan View Binding untuk menghubungkan layout
+        _binding = FragmentPlantBinding.inflate(inflater, container, false)
+
 
         // Cek apakah ini login pertama
         val sharedPreferences = requireActivity().getSharedPreferences("SmartFarmPrefs", Context.MODE_PRIVATE)
@@ -58,7 +59,7 @@ class PlantFragment : Fragment() {
             sharedPreferences.edit().putBoolean("isFirstLogin", false).apply()
         }
 
-        return view
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
