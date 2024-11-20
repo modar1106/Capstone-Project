@@ -10,9 +10,22 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.tyas.smartfarm.R
+import com.tyas.smartfarm.databinding.FragmentPlantBinding
+import com.tyas.smartfarm.model.Article
+import com.tyas.smartfarm.model.Plant
+import com.tyas.smartfarm.view.adapter.ArticleAdapter
+import com.tyas.smartfarm.view.adapter.PlantAdapter
 
 class PlantFragment : Fragment() {
+
+
+    private var _binding: FragmentPlantBinding? = null
+    private val binding get() = _binding!!
+
+    private lateinit var plantAdapter: PlantAdapter
+    private lateinit var articleAdapter: ArticleAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +60,53 @@ class PlantFragment : Fragment() {
 
         return view
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // Set Text Broadcast Section
+        binding.tvBroadcastMessage.text = "Check your plants! The forecast says rain tomorrow."
+
+        // Initialize Plant RecyclerView
+        plantAdapter = PlantAdapter(getDummyPlants())
+        binding.rvPlants.apply {
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            adapter = plantAdapter
+        }
+
+        // Initialize Article RecyclerView
+        articleAdapter = ArticleAdapter(getDummyArticles())
+        binding.rvArticles.apply {
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            adapter = articleAdapter
+        }
+
+        // Add Plant Button Action
+        binding.btnAddPlant.setOnClickListener {
+            Toast.makeText(requireContext(), "Add Plant clicked!", Toast.LENGTH_SHORT).show()
+        }
+    }
+    private fun getDummyPlants() = listOf(
+        Plant("Spinach", "Can be harvested", R.drawable.dummy),
+        Plant("Lettuce", "Needs more attention", R.drawable.dummy),
+        Plant("Cucumber", "Needs water - 250 ml", R.drawable.dummy)
+    )
+
+    private fun getDummyArticles() = listOf(
+        Article("Article 1", "This is a description", R.drawable.dummy),
+        Article("Article 1", "This is a description", R.drawable.dummy),
+        Article("Article 2", "Another description", R.drawable.dummy),
+        Article("Article 2", "Another description", R.drawable.dummy),
+        Article("Article 2", "Another description", R.drawable.dummy),
+        Article("Article 2", "Another description", R.drawable.dummy),
+        Article("Article 2", "Another description", R.drawable.dummy),
+        Article("Article 2", "Another description", R.drawable.dummy),
+        Article("Article 2", "Another description", R.drawable.dummy),
+        Article("Article 2", "Another description", R.drawable.dummy),
+        Article("Article 2", "Another description", R.drawable.dummy)
+    )
 
     private fun showFarmerDialog() {
         // Inflate layout custom untuk dialog
